@@ -1,0 +1,357 @@
+---
+title: "Homework2"
+author: "Chen Zhang"
+date: "February 15, 2019"
+output: word_document
+---
+
+### Question 1 
+#### (a)  
+
+$$S^2 = \frac{1}{n-1}\sum_{i=1}^{n} (X_i-\overline{X})$$
+$$S^2 = \frac{1}{n-1}\sum_{i=1}^{n} (X^2_i-2\overline{X}X_i+\overline{X}^2) $$
+$$S^2 = \frac{1}{n-1}(\sum_{i=1}^{n}X^2_i-2\overline{X}\sum_{i=1}^{n}X_i+\overline{X}^2\sum_{i=1}^{n}1) $$
+Because $\overline{X} = \frac{1}{n}\sum_{i=1}^{n}X_i$,  
+$$S^2 = \frac{1}{n-1}[\sum_{i=1}^{n}X^2_i-\frac{2}{n}( \sum_{i=1}^{n}X_i)^2+\frac{1}{n}( \sum_{i=1}^{n}X_i)^2]$$
+$$S^2 = \frac{1}{n-1}(\sum_{i=1}^{n}X^2_i-\frac{1}{n}\sum_{i=1}^{n}X_i\sum_{j=1}^{n}X_j)$$
+$$S^2 = \frac{1}{n-1}[\sum_{i=1}^{n}X^2_i-\frac{1}{n}(\sum_{i=1}^{n}X_i^2+2\sum_{i>j}^{n}X_iX_j)]$$
+$$S^2 = \frac{1}{n(n-1)}[n\sum_{i=1}^{n}X^2_i-\sum_{i=1}^{n}X_i^2-2\sum_{i<j}^{n}X_iX_j)]$$
+$$S^2 = \frac{1}{n(n-1)}[(n-1)\sum_{i=1}^{n}X^2_i-2\sum_{i<j}^{n}X_iX_j)]$$
+$$S^2 = \frac{1}{n(n-1)}\sum_{1\le i<j\le n}^{}(X_i-X_j)^2$$
+
+#### (b)
+From(a), we know that $$S^2 = \frac{1}{n-1}[\sum_{i=1}^{n}X^2_i-\frac{1}{n}( \sum_{i=1}^{n}X_i)^2]$$
+
+$$E[\sum_{i=1}^{n}X^2_i-\frac{1}{n}( \sum_{i=1}^{n}X_i)^2]=\sum_{i=1}^{n}E(X_i^2)-\frac{1}{n}E[(\sum_{i=1}^{n}X_i)^2] $$
+Because $E(X^2)=var(X)+[E(X)]^2$, $E[(\sum_{i=1}^{n}X_i)^2]=var(\sum_{i=1}^{n}X_i)+[E(\sum_{i=1}^{n}X_i)]^2=\sum_{i=1}^{n}$  
+
+First, consider that $X_i$ is independent, in this case, $cov(X_i,X_j)=0$.
+$$\sum_{i=1}^{n}E(X_i^2)=\sum_{i=1}^{n}[var(X_i)+(E(X_i))^2]=\sum_{i=1}^{n}(\sigma^2+\mu^2)=n\sigma^2+n\mu^2$$
+$$E[(\sum_{i=1}^{n}X_i)^2=var(\sum_{i=1}^{n}X_i)+(E[(\sum_{i=1}^{n}X_i))^2]=\sum_{i=1}^{n}var(X_i)+(\sum_{i=1}^{n}E(X_i))^2=n\sigma^2+n^2\mu^2$$
+$$\sum_{i=1}^{n}E(X_i^2)-\frac{1}{n}E[(\sum_{i=1}^{n}X_i)^2]=n\sigma^2+n\mu^2-\sigma^2-n\mu^2=(n-1)\sigma^2$$
+Therefore, we have,
+$$S^2 = \frac{1}{n-1}[\sum_{i=1}^{n}X^2_i-\frac{1}{n}( \sum_{i=1}^{n}X_i)^2]=\sigma^2$$
+
+Next, consider $X_i$ and $X_j$ are dependent. Then we have,
+$$E(S^2) = \frac{1}{n-1}E(\sum_{i=1}^{n} (X_i-\overline{X}))$$
+$$(n-1)E(S^2)=E(\sum_{i=1}^{n}X^2_i-n\overline{X}^2)$$ 
+$$(n-1)E(S^2)=E[\sum_{i=1}^{n}(X_i-\mu)^2-n(\overline{X}-\mu)^2]$$
+It is easily to prove that $\sum_{i=1}^{n}(X_i-\mu)^2-n(\overline{X}-\mu)^2=\sum_{i=1}^{n}X_i^2-n\overline{X}^2$. 
+$$\sum_{i=1}^{n}(X_i-\mu)^2-n(\overline{X}-\mu)^2=\sum_{i=1}^{n}(X_i^2-2\mu X_i+\mu^2)-n(\overline{X}^2-2\overline{X}\mu+\mu^2)$$
+$$=\sum_{i=1}^{n}X_i^2-2\mu\sum_{i=1}^{n}X_i+n\mu^2-n\overline{X}^2+2n\overline{X}\mu-n\mu^2=\sum_{i=1}^{n}X_i^2-2n\mu\overline{X}-n\overline{X}^2+2n\overline{X}\mu=\sum_{i=1}^{n}X_i^2-n\overline{X}^2$$
+Then,
+$$(n-1)E(S^2)=E[\sum_{i=1}^{n}(X_i-\mu)^2-n(\overline{X}-\mu)^2]=n\sigma^2-nvar(\overline{X})$$
+Because, $var\overline{X}$ could range from 0, if $var\overline{X}$=0, then $E(S^2)=\frac{n}{n-1}\sigma^2$.$var\overline{X}$ increase from 0 and maximum of $var\overline{X}$ is $\sigma^2$. If $var\overline{X}=\sigma^2$, then $E(S^2)=0$. Becasue $var\overline{X}$ ranges from 0 to $\sigma^2$, therefore, we have $0\le E(S^2) \le \frac{n}{n-1}\sigma^2$. Take case 1 into consideration, when $X_i$ is independent, $E(S^2)=\sigma^2$, since $\frac{n}{n-1}\sigma^2 \ge \sigma^2$ for any $n \in R^N$. Therefore $0\le E(S^2) \le \frac{n}{n-1}\sigma^2$ holds regardless of what the correlation structure of the $X_is$ is. 
+
+
+
+#### (c)
+Consider $\sum_{i=1}^{n}(Y_i-\overline{Y})^2$ first,
+$$\sum_{i=1}^{n}(Y_i-\overline{Y})^2=\sum_{i=1}^{n}Y_i^2-2n\overline{Y}^2+n\overline{Y}^2=\sum_{i=1}^{n}Y_i^2-n\overline{Y}^2 $$
+$$E[\sum_{i=1}^{n}(Y_i-\overline{Y})^2]=E[\sum_{i=1}^{n}Y_i^2-n\overline{Y}^2]=\sum_{i=1}^{n}E(Y_i^2)-nE(\overline{Y}^2)$$
+
+Because $E(Y^2)=var(Y)+[E(Y)]^2$ $$E(\overline{Y}^2)=var(\overline{Y})+[E(\overline{Y})]^2$$, Becasue,
+$$E(\overline{Y})=E(\frac{1}{n}\sum_{i=1}^{n}Y_i)=\frac{1}{n}\sum_{i=1}^{n}E(Y_i)=\mu $$
+$$var(\overline{Y})=var(\frac{1}{n}\sum_{i=1}^{n}Y_i)=\frac{1}{n^2}var(\sum_{i=1}^{n}Y_i)=\frac{1}{n^2}\sum_{i=1}^{n}var(Y_i)+ \frac{1}{n^2}2\sum_{i=1}^{n}cov(Y_i,Y_j)=\frac{1}{n}(\sigma^2+2\rho\sigma^2)$$
+Then we can rewrite the equation as,
+$$\sum_{i=1}^{n}E(Y_i^2)-nE(\overline{Y}^2)=\sum_{i=1}^{n}(\sigma^2+\mu^2)-n[\mu+\frac{1}{n}(\sigma^2+2\rho\sigma^2)]=n\sigma^2+n\mu-n\mu-\sigma^2-2\rho\sigma^2=(n-1)\sigma^2-2\rho\sigma^2$$
+Now, if $S^2 = \frac{1}{n-1}\sum_{i=1}^{n} (Y_i-\overline{Y})$, then we have
+$$E[\frac{1}{n-1}\sum_{i=1}^{n} (Y_i-\overline{Y})]=\frac{1}{n-1}E[\sum_{i=1}^{n} (Y_i-\overline{Y})]=\frac{1}{n-1}[(n-1)\sigma^2-2\rho\sigma^2]=\sigma^2-\frac{2\rho\sigma^2}{n-1}$$
+Therefore, $S^2 = \frac{1}{n-1}\sum_{i=1}^{n} (Y_i-\overline{Y})$ is not an unbiased estimator of $\sigma^2$. 
+
+#### (d)
+Suppose $X_i = Z(s_i)$, and $X_j = Z(s_j)$, then we have 
+$$S^2 = \frac{1}{n(n-1)}\sum_{1\le i<j\le n}^{}(Z(s_i)-Z(s_j))^2$$
+$$E(S^2) = \frac{1}{n(n-1)}\sum_{1\le i<j\le n}^{}[E(Z(s_i)-Z(s_j))^2-(E(Z(s_i)-Z(s_j))^2)]$$
+Becasue $E(Z(s_i)-Z(s_j))=E(Z(s_i))-E(Z(s_j))=\mu(s_i)-\mu(s_j)=0$, therefore,
+$$E(Z(s_i)-Z(s_j))^2-(E(Z(s_i)-Z(s_j))^2)=E(Z(s_i)-Z(s_j))^2$$
+$$E(S^2) = \frac{2}{n(n-1)}\sum_{1\le i<j\le n}^{}\frac{1}{2}[E(Z(s_i)-Z(s_j))^2-(E(Z(s_i)-Z(s_j))^2)]$$
+$$E(S^2) = \frac{2}{n(n-1)}\sum_{1\le i<j\le n}^{}\gamma(s_i,s_j)$$
+
+### Question 2
+```{r}
+library(plotrix)
+library(gstat)
+library(geoR)
+data= as.data.frame(readxl::read_xlsx("data.xlsx"))
+```
+
+
+#### (a)Carry out a complete exploratory analysis, investigating the main features of the data,and formulate possible models for the mean function, semivariogram function and type of distribution of these data.
+```{r,fig.height=5,fig.width=10}
+par(mfrow=c(1,2))
+plot(data[,2],data[,3],xlab="x-coordinate",ylab="y-coordinate",main="x verse y coordinate",cex=0.5)
+plot(data[,2],data[,3],xlab="x-coordinate",ylab="y-coordinate",main="x verse y coordinate",type="n",cex=0.5)
+text(data[,2],data[,3],labels = data[,4],cex=0.5)
+
+```
+```{r,fig.height=5,fig.width=10}
+par(mfrow=c(1,2))
+plot(data[,2],data[,4],xlab="x-coordinate",ylab="Bouguer gravity anomaly",cex=0.5)
+plot(data[,3],data[,4],xlab="y-coordinate",ylab="Bouguer gravity anomaly",cex=0.5)
+```
+```{r,fig.height=5,fig.width=10}
+par(mfrow=c(1,2))
+hist(data[,4],prob=T,xlab="Bouguer gravity anomaly",ylab="frequency",ylim=c(0,0.1),main="frequency")
+qqnorm(data[,4],xlab="theoretical quantiles",ylab="sample quantiles")
+qqline(data[,4])
+```
+
+```{r}
+gr.data = as.geodata(data[,c(2,3,4)])
+```
+
+```{r}
+#compute empirical semivariograms
+gr.mom = variog(gr.data,max.dist = 32,uvec = 20)
+plot(gr.mom)
+lines(gr.mom)
+```
+From histogram we can see that the response is not Gussian distribution. Plots show that the response variable tend to increase with the both x coordinates and decrease with y coordinates. So an appropriate random field model for this data maybe one with mean function
+$$\mu(x,y) = \beta_1+\beta_2x+\beta_3y $$
+This empirical semivariogram shows an increasing pattern with distance which is often an indication that the random field has non-constant mean function. 
+$$\gamma(h)=\frac{1}{2|N(h)|}\sum_{\{s_i,s_j\}\in N(h)}(R_i-Rj)^2 $$
+
+#### (b) Compute empirical semivariograms, both omni–directional and directional for a few directions. Assess the sensitivity of your estimates to some of choices involved in the calculation of these estimates. Assess the validity of assuming that the underlying semivariogram function is isotropic, or else that it is not isotropic.
+```{r,fig.height=5,fig.width=10}
+gr.data <- as.geodata(data[,c(2,3,4)]) # The package geoR requires data in a format
+ # other than a matrix
+breaks <- seq(0, 32, l=20)
+gr.svar <- variog(gr.data, breaks=breaks, estimator.type="classical")
+gr.rvar <- variog(gr.data, breaks=breaks, estimator.type="modulus")
+
+par(mfrow=c(1, 2))
+plot(gr.svar,col="blue", main="classical vs modulus",ylim=c(0,70))
+points(gr.rvar$u, gr.rvar$v, col="red")
+
+gr.dsvar <- variog4(gr.data, breaks=breaks)
+plot(gr.dsvar, main="modulus",omnidirection=T)
+
+```
+
+
+
+```{r,fig.height=15,fig.width=10}
+#directional semivariogram investigation
+gr.EW = variog(gr.data,direction=pi/2,tolerance=pi/9,breaks = breaks)
+gr.N67.5W = variog(gr.data,direction=5*pi/8,tolerance=pi/9,breaks = breaks)
+gr.NWSE = variog(gr.data,direction=3*pi/4,tolerance=pi/9,breaks = breaks)
+gr.N22.5W = variog(gr.data,direction=7*pi/8,tolerance=pi/9,breaks = breaks)
+gr.NS = variog(gr.data,direction=0,tolerance=pi/9,breaks = breaks)
+gr.N22.5E = variog(gr.data,direction=pi/8,tolerance=pi/9,breaks = breaks)
+gr.NESW = variog(gr.data,direction=pi/4,tolerance=pi/9,breaks = breaks)
+gr.N67.5E = variog(gr.data,direction=3*pi/8,tolerance=pi/9,breaks = breaks)
+
+par(mfrow=c(4,2))
+plot(gr.EW,ylim=c(0,100),main = "E-W")
+plot(gr.N67.5W,ylim=c(0,100),main="N67.5W")
+plot(gr.NWSE,ylim=c(0,100),main="NW-SE")
+plot(gr.N22.5W,ylim=c(0,100),main="N22.5W")
+plot(gr.NS,ylim=c(0,100),main = "N-S")
+plot(gr.N22.5E,ylim=c(0,100),main="N22.5E")
+plot(gr.NESW,ylim=c(0,100),main="NE-SW")
+plot(gr.N67.5E,ylim=c(0,100),main="N67.5E")
+```
+We can see from the graph, with the distance changes, semivariogram changes as well. The underlying semivariogram function is not isotropic.
+
+#### (c) Based on your findings in (b), propose a parametric family of semivariograms functions for the underlying random field, and estimate its parameters by least square.
+
+from (b) we can see that there is a trend in semivariogram function, first, we need to define the mean function. 
+
+```{r,fig.height=5,fig.width=10}
+gr.svar.mean <- variog(gr.data, breaks=breaks, estimator.type="classical",trend = "1st")
+gr.rvar.mean <- variog(gr.data, breaks=breaks, estimator.type="modulus",trend = "1st")
+
+par(mfrow=c(1, 2))
+plot(gr.svar.mean,col="blue", main="classical vs modulus",ylim=c(0,1))
+points(gr.rvar.mean$u, gr.rvar.mean$v, col="red")
+
+gr.dsvar.mean <- variog4(gr.data, breaks=breaks,trend = "1st")
+plot(gr.dsvar.mean, main="modulus",omnidirection=T)
+```
+
+
+```{r}
+#calculate uniroot
+g <- function(x) 0.8*(1 - (20/x)*besselK(20/x, nu=1)) -0.76
+uniroot(g,c(0.1,20))$root
+```
+
+```{r,fig.height=5,fig.width=10}
+gr.s.olsfit <- variofit(vario=gr.svar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="matern",
+ nugget=0, kappa=1, max.dist=32, weights="equal")
+gr.s.wlsfit <- variofit(vario=gr.svar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="matern",
+ nugget=0, kappa=1, max.dist=32, weights="cressie")
+gr.r.olsfit <- variofit(vario=gr.rvar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="matern",
+ nugget=0, kappa=1, max.dist=32, weights="equal")
+gr.r.wlsfit <- variofit(vario=gr.rvar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="matern",
+ nugget=0, kappa=1, max.dist=32, weights="cressie")
+
+par(mfrow=c(1,2))
+plot(gr.svar.mean,main="svar-matern")
+lines.variomodel(cov.model="matern", cov.pars=gr.s.olsfit$cov.pars,
+nugget=gr.s.olsfit$nugget,
+ kappa=1, max.dist=32, lwd=3, col="blue")
+lines.variomodel(cov.model="matern", cov.pars=gr.s.wlsfit$cov.pars,
+nugget=gr.s.wlsfit$nugget,
+ kappa=1, max.dist=32, lwd=2, col="red")
+
+plot(gr.rvar.mean, main="rvar-matern")
+lines.variomodel(cov.model="matern", cov.pars=gr.r.olsfit$cov.pars,
+nugget=gr.r.olsfit$nugget,
+ kappa=1, max.dist=32, lwd=3, col="blue")
+lines.variomodel(cov.model="matern", cov.pars=gr.r.wlsfit$cov.pars,
+nugget=gr.r.wlsfit$nugget,
+ kappa=1, max.dist=32, lwd=2, col="red")
+
+```
+```{r,fig.height=5,fig.width=10}
+gr.s.olsfit.s <- variofit(vario=gr.svar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="spherical",
+ nugget=0, kappa=1, max.dist=32, weights="equal")
+gr.s.wlsfit.s <- variofit(vario=gr.svar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="spherical",
+ nugget=0, kappa=1, max.dist=32, weights="cressie")
+gr.r.olsfit.s <- variofit(vario=gr.rvar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="spherical",
+ nugget=0, kappa=1, max.dist=32, weights="equal")
+gr.r.wlsfit.s <- variofit(vario=gr.rvar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="spherical",
+ nugget=0, kappa=1, max.dist=32, weights="cressie")
+
+par(mfrow=c(1,2))
+plot(gr.svar.mean,main="svar-spherical")
+lines.variomodel(cov.model="spherical", cov.pars=gr.s.olsfit.s$cov.pars,
+nugget=gr.s.olsfit.s$nugget,
+ kappa=1, max.dist=32, lwd=3, col="blue")
+lines.variomodel(cov.model="spherical", cov.pars=gr.s.wlsfit.s$cov.pars,
+nugget=gr.s.wlsfit.s$nugget,
+ kappa=1, max.dist=32, lwd=2, col="red")
+
+plot(gr.rvar.mean, main="rvar-spherical")
+lines.variomodel(cov.model="spherical", cov.pars=gr.r.olsfit.s$cov.pars,
+nugget=gr.r.olsfit.s$nugget,
+ kappa=1, max.dist=32, lwd=3, col="blue")
+lines.variomodel(cov.model="spherical", cov.pars=gr.r.wlsfit.s$cov.pars,
+nugget=gr.r.wlsfit.s$nugget,
+ kappa=1, max.dist=32, lwd=2, col="red")
+
+```
+```{r,fig.height=5,fig.width=10}
+gr.s.olsfit.g <- variofit(vario=gr.svar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="gaussian",
+ nugget=0, kappa=1, max.dist=32, weights="equal")
+gr.s.wlsfit.g <- variofit(vario=gr.svar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="gaussian",
+ nugget=0, kappa=1, max.dist=32, weights="cressie")
+gr.r.olsfit.g <- variofit(vario=gr.rvar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="gaussian",
+ nugget=0, kappa=1, max.dist=32, weights="equal")
+gr.r.wlsfit.g <- variofit(vario=gr.rvar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="gaussian",
+ nugget=0, kappa=1, max.dist=32, weights="cressie")
+
+par(mfrow=c(1,2))
+plot(gr.svar.mean,main="svar-gaussian")
+lines.variomodel(cov.model="gaussian", cov.pars=gr.s.olsfit.g$cov.pars,
+nugget=gr.s.olsfit.g$nugget,
+ kappa=1, max.dist=32, lwd=3, col="blue")
+lines.variomodel(cov.model="gaussian", cov.pars=gr.s.wlsfit.g$cov.pars,
+nugget=gr.s.wlsfit.g$nugget,
+ kappa=1, max.dist=32, lwd=2, col="red")
+
+plot(gr.rvar.mean, main="rvar-gaussian")
+lines.variomodel(cov.model="gaussian", cov.pars=gr.r.olsfit.g$cov.pars,
+nugget=gr.r.olsfit.g$nugget,
+ kappa=1, max.dist=32, lwd=3, col="blue")
+lines.variomodel(cov.model="gaussian", cov.pars=gr.r.wlsfit.g$cov.pars,
+nugget=gr.r.wlsfit.g$nugget,
+ kappa=1, max.dist=32, lwd=2, col="red")
+```
+
+```{r,fig.height=5,fig.width=10}
+gr.s.olsfit.c <- variofit(vario=gr.svar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="cubic",
+ nugget=0, kappa=1, max.dist=32, weights="equal")
+gr.s.wlsfit.c <- variofit(vario=gr.svar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="cubic",
+ nugget=0, kappa=1, max.dist=32, weights="cressie")
+gr.r.olsfit.c <- variofit(vario=gr.rvar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="cubic",
+ nugget=0, kappa=1, max.dist=32, weights="equal")
+gr.r.wlsfit.c <- variofit(vario=gr.rvar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="cubic",
+ nugget=0, kappa=1, max.dist=32, weights="cressie")
+
+par(mfrow=c(1,2))
+plot(gr.svar.mean,main="svar-cubic")
+lines.variomodel(cov.model="cubic", cov.pars=gr.s.olsfit.c$cov.pars,
+nugget=gr.s.olsfit.c$nugget,
+ kappa=1, max.dist=32, lwd=3, col="blue")
+lines.variomodel(cov.model="cubic", cov.pars=gr.s.wlsfit.c$cov.pars,
+nugget=gr.s.wlsfit.c$nugget,
+ kappa=1, max.dist=32, lwd=2, col="red")
+
+plot(gr.rvar.mean, main="rvar-cubic")
+lines.variomodel(cov.model="cubic", cov.pars=gr.r.olsfit.c$cov.pars,
+nugget=gr.r.olsfit.c$nugget,
+ kappa=1, max.dist=32, lwd=3, col="blue")
+lines.variomodel(cov.model="cubic", cov.pars=gr.r.wlsfit.c$cov.pars,
+nugget=gr.r.wlsfit.c$nugget,
+ kappa=1, max.dist=32, lwd=2, col="red")
+```
+```{r,fig.height=5,fig.width=10}
+gr.s.olsfit.e <- variofit(vario=gr.svar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="exp",
+ nugget=0, kappa=1, max.dist=32, weights="equal")
+gr.s.wlsfit.e <- variofit(vario=gr.svar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="exp",
+ nugget=0, kappa=1, max.dist=32, weights="cressie")
+gr.r.olsfit.e <- variofit(vario=gr.rvar.mean, ini.cov.pars=c(0.8, 5),
+cov.model="exp",
+ nugget=0, kappa=1, max.dist=32, weights="equal")
+gr.r.wlsfit.e <- variofit(vario=gr.rvar.mean, ini.cov.pars=c(0.8, 5 ),
+cov.model="exp",
+ nugget=0, kappa=1, max.dist=32, weights="cressie")
+
+par(mfrow=c(1,2))
+plot(gr.svar.mean,main="svar-exp")
+lines.variomodel(cov.model="exp", cov.pars=gr.s.olsfit.e$cov.pars,
+nugget=gr.s.olsfit.e$nugget,
+ kappa=1, max.dist=32, lwd=3, col="blue")
+lines.variomodel(cov.model="exp", cov.pars=gr.s.wlsfit.e$cov.pars,
+nugget=gr.s.wlsfit.e$nugget,
+ kappa=1, max.dist=32, lwd=2, col="red")
+
+plot(gr.rvar.mean, main="rvar-exp")
+lines.variomodel(cov.model="exp", cov.pars=gr.r.olsfit.e$cov.pars,
+nugget=gr.r.olsfit.e$nugget,
+ kappa=1, max.dist=32, lwd=3, col="blue")
+lines.variomodel(cov.model="exp", cov.pars=gr.r.wlsfit.e$cov.pars,
+nugget=gr.r.wlsfit.e$nugget,
+ kappa=1, max.dist=32, lwd=2, col="red")
+```
+
+Based on the graph, we can see that the ols and wls don't have big difference.
+
+#### (d) Compare your analyses and choices with those made in Olea, R.A. (2006), and make a critical assessment on the differences between the two.  
+In Plea, R.A.(2006), he used kriging estimation. Kriging is a family of estimators used to interpolate spatial data. This family includes ordinary kriging, universal kriging, indicator kriging, co-kriging and others. The choice of which kriging to use depends on the characteristics of the data and the type of spatial model desired.(Lefohn et al., 2005). An advantage of Kriging is that it provides a measure of the probable error associated with the estimates.In this case, it could avoid imaginary standard errors. But it is hard to implement. According to ESRI (2004), Kriging is one of the most complex interpolators. It applies sophisticated statistical methods that consider the unique characteristics of dataset. 
+
+Based on my analysis, I used the second step of the estimation-model fitting approach to analyze the data. It is very easy to implement but sometimes it will overfit the semivariogram function. 
+
+
+
+
+
+
+
+
+
+
+
+
+

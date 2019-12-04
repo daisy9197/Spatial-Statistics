@@ -1,0 +1,24 @@
+---
+title: "HW4"
+author: "Chen Zhang"
+date: "April 3, 2019"
+output: word_document
+---
+
+### 1. Consider the spatial data set from Olea (2006).
+```{r}
+library(geoR)
+data = readxl::read_xlsx("data.xlsx")[,-1]
+names(data)=c("x","y","z")
+```
+
+
+#### (a) Based on the data analysis you did in homework 3 (or a new one), entertain three or four tentative models, with different mean and/or semivariogram functions, and choose the ‘best model’ using BIC.
+
+```{r}
+# The first model, we assume that the mean function is constant. 
+data.mean1 = as.geodata(data)
+breaks = seq(0,32)
+
+```
+

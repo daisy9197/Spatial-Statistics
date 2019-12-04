@@ -1,0 +1,246 @@
+---
+title: "Homework1"
+author: "Chen Zhang"
+date: "January 29, 2019"
+output: word_document
+---
+
+### Q1  
+
+By defination, we have  
+$c(s,u)=cov(z_1(s),z_1(u))$, and $cov(z_2(s),z_2(u))$. 
+  
+Since $z_1(s),z_1(u),z_2(s),z_2(u$ are independent, we can rewrite  
+  
+$cov(z_2(s),z_2(u)) = cov(Vz_1(s),Vz_1(u)) = E(Vz_1(s)Vz_1(u))-E(Vz_1(s))E(Vz_1(u)) = E(V^2)E(z_1(s)z_1(u))-[E(V)]^2E(z_1(s))E(z_1(u))$  
+  
+Since $E(V^2)=1, E(V)=0$, then we have $[E(V)]^2=0$  
+We rewrite as $cov(z_2(s),z_2(u)) = E(z_1(s)z_1(u))$.
+$c(s,u)=cov(z_1(s),z_1(u)) = E(z_1(s) z_1(u))-E(z_1(s))E(z_1(u))$  
+  
+Because we have $E(z_1(s))=0$, Then $c(s,u)=cov(z_1(s),z_1(u)) = E(z_1(s) z_1(u))$, $cov(z_2(s),z_2(u)) = E(z_1(s)z_1(u))$  
+  
+Therefore, $cov(z_2(s),z_2(u))=c(s.u)$
+
+
+
+
+
+### Q2  
+Because $C_1(S,U),C_1(S,U),...$ be a sequence of covariance function, and $ b_1, b_2,...$ a sequence of non-negative numbers. plus $C_1(S,U),C_1(S,U),...$ is symmetric and conditionally positive semi-definite, it is clearly that $\sum_{n = i}^{\infty} b_nC_n(s,u) $ is also symmetric. Let $m \in N, s_1,...,s_m \in D$ and $a_1,...,a_m \in R$.  
+
+To show that $\sum_{n = i}^{\infty} b_nC_n(s,u)$ is positive definite, we have  
+$$\sum_{i=1}^{m}\sum_{j=1}^{m} a_ia_j (\sum_{n=1}^{\infty}b_nC_n(s_j.s_j)) = \sum_{n=1}^{\infty}b_n(\sum_{i=1}^{m}\sum_{j=1}^{m} a_ia_j C_n(s_j.s_j)) \ge 0$$
+Therefore, $\sum_{n = i}^{\infty} b_nC_n(s,u)$ is positive definite and symmetric, we can conclude that $\sum_{n = i}^{\infty} b_nC_n(s,u)$ is a covariance function.
+
+
+
+
+### Q3  
+
+##### (a)  
+
+First, consider h=0, in this case, we have  $\gamma(0)= 0$  
+Then, consider h>0, we have  
+$$\gamma(0)= \sigma_0^2 + \lambda_2 \gamma^s(\frac{||h||}{\alpha})+(\lambda_1-\lambda_2)\gamma^s(\frac{|h_1|}{\alpha})$$ 
+Becasue $\gamma(r)$
+is a isotropic semivariogram function, and $\lambda_1 >\lambda_2>0$, it is clearly that $\lambda_2 \gamma^s(\frac{||h||}{\alpha})$ and $(\lambda_1-\lambda_2)\gamma^s(\frac{|h_1|}{\alpha})$ are the semivariogram function.  
+
+Let $m \in N, s_1,...,s_m \in D$ and $a_1,...,a_m \in R$, because $\sum_{i=1}^{m}a_i=0$
+$$\lambda_2 \gamma^s(\frac{||h||}{\alpha}) =\sum_{i=1}^{m}\sum_{j=1}^{m} a_ia_j \lambda_2 \gamma^s(\frac{||h||}{\alpha}) = \lambda_2 \gamma^s(\frac{||h||}{\alpha})\sum_{i=1}^{m}a_i\sum_{j=1}^{m}a_j =0$$
+$$(\lambda_1-\lambda_2)\gamma^s(\frac{|h_1|}{\alpha}) =\sum_{i=1}^{m}\sum_{j=1}^{m} a_ia_j (\lambda_1-\lambda_2)\gamma^s(\frac{|h_1|}{\alpha}) =(\lambda_1-\lambda_2)\gamma^s(\frac{|h_1|}{\alpha})\sum_{i=1}^{m}a_i\sum_{j=1}^{m}a_j =0$$
+
+
+$$\sum_{i=1}^{m}\sum_{j=1}^{m} a_ia_j \sigma_0^2 = \sigma_0^2\sum_{i=1}^{m}a_i\sum_{j=1}^{m}a_j =0$$ 
+Since, $\sigma_0^2$ is negative definite and symmetric, we can say that the indicator function, $\sigma_0^21{||h||>0}$ is a semivarigoram function. Then it is clearly that $\gamma(r)$ is semivariogram in $R^2$
+
+
+##### (b)  
+$\gamma(r)$ is an isotropic semivariogram function in $R^d$, the attribute nugget is defined as 
+nugget := $\lim_{x \to0^+} \gamma(h)$.  
+$h=(h_1,h_2)=(rsin \varphi, rcos\varphi)$, when h goes to $0^+$, $h_1$ and $h_2$ goes to $0^+$. In this case, we have $\lim_{x \to0^+} \gamma(h) = \sigma_0^2$ in any directionc.  
+
+
+##### (c)
+$\gamma(r)$ is an isotropic semivariogram function in $R^d$, the attribute sill is defined as  sill:= $\lim_{x \to \infty} \gamma(h)$, $h=(h1,h2)=(rsin \varphi, rcos\varphi)$  
+
+When $\varphi=0$, $h=(h_1,h_2)=(r,0)$, and $||h|| = (h_1^2+h_2^2)^\frac{1}{2} = r$  
+$$\lim_{h \to \infty} \gamma(h) = \sigma_0^2 +\lambda_2+(\lambda_1-\lambda_2) =  \sigma_0^2+\lambda_1$$ 
+
+When $\varphi=\pi/2$, $h=(h_1,h_2)=(0,r)$, and $||h|| = (h_1^2+h_2^2)^\frac{1}{2} = r$  
+$$\lim_{h \to \infty} \gamma(h) = \sigma_0^2 +\lambda_2+0 =  \sigma_0^2+\lambda_2$$.  
+
+
+##### (d)
+$\gamma(r)$ is an isotropic semivariogram function in $R^d$, the attribute sill is defined as  sill:= $\lim_{x \to \infty} \gamma(h)$, $h=(h1,h2)=(rsin \varphi, rcos\varphi)$  \
+
+$\varphi \in (0,\frac{\pi}{2}) \cup (\frac{\pi}{2},\pi)$, and 
+$$||h|| = (h_1^2+h_2^2)^\frac{1}{2} = (r^2 \cos^2\varphi + r^2 \sin^2\varphi) ^\frac{1}{2} =r$$  
+$$\lim_{h \to \infty} \gamma(h) = \sigma_0^2 +\lambda_2+(\lambda_1-\lambda_2) =  \sigma_0^2+\lambda_1$$
+
+
+##### (e)
+by defination of range, we have 
+$$range:=min(r>0 : \gamma(r)=sill) $$
+Frist, we need to consider east-west case, $\varphi = 0, h=(r,0), ||h|| = r$
+$$\gamma(h) = \sigma^2_0+\lambda_2\gamma^s(\frac{r}{\alpha}+(\lambda_1-\lambda_2)\gamma^s(\frac{r}{\alpha}))=\sigma_0^2+\lambda_1\gamma^s(\frac{r}{\alpha})=sill $$
+$$ \sigma_0^2+\lambda_1\gamma^s(\frac{r}{\alpha}) =\sigma_0^2+\lambda_1 $$
+$$\gamma^s(\frac{r}{\alpha})=1 $$
+In this case, based on the defination of range, we can conclude that $r=\alpha$. 
+
+Then consider north-south case, we have $\varphi = \frac{\pi}{2}, h=(0,r), ||h|| = r$
+$$\gamma(h) = \sigma^2_0+\lambda_2\gamma^s(\frac{r}{\alpha}+(\lambda_1-\lambda_2)\gamma^s(\frac{r}{\alpha}))=\sigma_0^2+\lambda_2\gamma^s(\frac{r}{\alpha})=sill $$
+$$ \sigma_0^2+\lambda_2\gamma^s(\frac{r}{\alpha}) =\sigma_0^2+\lambda_2 $$
+$$\gamma^s(\frac{r}{\alpha})=1 $$
+In this case, based on the defination of range, we can conclude that $r=\alpha$. 
+Finally, consider any direction, we have  
+$\varphi \in(0,\frac{\pi}{2}) \cup(\frac{\pi}{2},\pi), h=(r\cos(\varphi),r\sin(\varphi)), ||h|| = r$
+$$\gamma(h) = \sigma^2_0+\lambda_2\gamma^s(\frac{r}{\alpha}+(\lambda_1-\lambda_2)\gamma^s(\frac{r\cos(\varphi)}{\alpha}))=sill $$
+$$ \sigma^2_0+\lambda_2\gamma^s(\frac{r}{\alpha}+(\lambda_1-\lambda_2)\gamma^s(\frac{r\cos(\varphi)}{\alpha})) =\sigma_0^2+\lambda_1 $$
+$$ \lambda_2\gamma^s(\frac{r}{\alpha})+\lambda_1\gamma^s(\frac{r\cos(\varphi)}{\alpha})-\lambda_2\gamma^s(\frac{r\cos(\varphi)}{\alpha})-\lambda = 0$$
+$$\lambda_2[\gamma^s(\frac{r}{\alpha})-\gamma^s(\frac{r\cos(\varphi)}{\alpha})]+ \lambda_1[ \gamma^s(\frac{r\cos(\varphi)}{\alpha})-1] = 0$$
+we assume that two terms must equal to zero at the same time, because $\lambda_1>\lambda_2$. Then we have
+$$\gamma^s(\frac{r\cos(\varphi)}{\alpha})=1 ,and\gamma^s(\frac{r}{\alpha})-\gamma^s(\frac{r\cos(\varphi)}{\alpha}=0) $$
+In this case, $h_1 = \alpha and h_1 = ||h|| = \alpha$, therefore for any direction, it is the same with  east-west. 
+
+##### (f)
+Let $Z ={Z(s): s\in D}$ be a random field on D, with mean function $\mu(s)$ and covariance function C(s,u), and Z is said to be weakly stationary if and only if the mean and covariance function are invariant under arbitrary translations of their arguments. That for every $s,y,h \in D$, 
+$$\mu(s) = \mu(s+h) and C(s,u) = C(s+h,u+h)$$ (Definition 6)
+
+We can say that if the underlying random field us weakly stationary, the covariance function is only about distance h. In this question, $\gamma(h)$ is a semivariogram function and we have $\gamma(h)=C(0)-C(h)$. Then the directional covariance function can be written as 
+$$C(\varphi,r) = C(\varphi,0)-[ \sigma^2_0 1||h||>0+\lambda_2\gamma^s(\frac{r}{\alpha})+(\lambda_1-\lambda_2)\gamma^s(\frac{r}{\alpha}))] $$
+Then we assume that the dirctional covariances in the east-west directions and north-south directions can both go to zero as distance growths to infinity. 
+Then we have, 
+$$\lim_{h \to \infty} C(\varphi,r)=C(\varphi,0)-\lim_{h \to \infty}(\sigma^2_0 1||h||>0+\lambda_2\gamma^s(\frac{r}{\alpha})+(\lambda_1-\lambda_2)\gamma^s(\frac{r}{\alpha}))$$
+For east-west case, $\varphi = 0, h=(r,0) ||h||=r$
+$$\lim_{h \to \infty} C(0,r)=C(0,0)-(\sigma^2_0+\lambda_1)$$
+For north-south case, $\varphi=\frac{\pi}{2}, h=(0,r), ||h||=r$
+$$\lim_{h \to \infty} C(\frac{\pi}{2},r)=C(\frac{\pi}{2},0)-(\sigma^2_0+\lambda_2)$$
+If dirctional covariances in the east-west directions and north-south directions can both go to zero as distance growths to infinity, we have, 
+$$C(0,0)-(\sigma^2_0+\lambda_1) = C(\frac{\pi}{2},0)-(\sigma^2_0+\lambda_2)$$
+In particular, $\sigma^2(s)$ must be constant, since $\sigma^2(s)=C^0(0)$ for all s. Therefore, we have $C(0,0)=C(\frac{\pi}{2},0)$ becasue it is constant.  
+Then we have, 
+$$\lambda_1=\lambda_2$$
+But based on the instruction, we have $\lambda_1 >\lambda_2>0$, which contradict to our conclusion. In this case, the directional covariances go to zero either in in the east-west directions or in north-south directions. Therefore, dirctional covariances in the east-west directions and north-south directions can not both go to zero as distance growths to infinity.  
+
+### Q4
+The geometrically anisotropic covariance function is written as  
+$C(r,\varphi) =C^*(r(b_{11}\cos^2(\varphi)+b_{12}\sin(2\varphi)+b_{22}\sin^2(\varphi))^{1/2})$
+with 
+$$\theta_1(\varphi) = (b_{11}\cos^2(\varphi)+b_{12}\sin(2\varphi)+b_{22}\sin^2(\varphi))^{-1/2}$$
+
+since we know that
+$$\varphi \in (-\frac{\pi}{2},\frac{\pi}{2})$$
+then we have $2\varphi \in (-\pi,\pi)$.  
+Given that $C^*(·)$ is positive and strictly decreasing, then we can take derivative of $\varphi$. We have
+$$\theta^{\prime}_1 = -\frac{1}{2}(b_{11}\cos^2(\varphi) +b_{12}\sin(2\varphi)+b_{22}\sin^2(\varphi))^{-3/2} (-2b_{11}\cos(\varphi)\sin(\varphi)+2b_{12}\cos(2\varphi)+2b_{22}\sin(\varphi)\cos(\varphi))$$
+since $ -\frac{1}{2}(b_{11}\cos^2(\varphi) +b_{12}\sin(2\varphi)+b_{22}\sin^2(\varphi))^{-3/2}$ is postive for any $\varphi$.   
+Then $\theta^{\prime}_1 > 0$ can be written as  
+$$-\frac{1}{2}(-2b_{11}\cos(\varphi)\sin(\varphi)+2b_{12}\cos(2\varphi)+2b_{22}\sin(\varphi)\cos(\varphi)) >0$$
+$$-b_{11}\sin(2\varphi)+2b_{12}\cos(2\varphi)+b_{22}\sin(2\varphi)) < 0$$
+$$2b_{12}\cos(2\varphi) <(b_{11}-b_{22}\sin(2\varphi)) -------(1)$$
+(1) Consider $b_{11}-b_{22} > 0$, from (1) we can see that 
+$$\frac{2b_{12}}{b_{11}-b_{22}}\cos(2\varphi)<\sin(2\varphi)$$
+$$ \frac{2b_{12}}{b_{11}-b_{22}}<\tan(2\varphi)$$
+
+(a) if $b_{12} >0, \tan(2\varphi) >0$, in this case either $cos(2\varphi) > 0 and \sin(2\varphi)>0$ or $cos(2\varphi) < 0 and \sin(2\varphi)<0$.  
+(i)if 
+$cos(2\varphi) > 0 and \sin(2\varphi)>0$, $2\varphi \in (0,\frac{\pi}{2})$
+$$ \frac{2b_{12}}{b_{11}-b_{22}}<\tan(2\varphi)$$
+$$2\varphi >\arctan(\frac{2b_{12}}{b_{11}-b_{12}})$$
+
+$$\varphi >\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}})$$
+So,$C^*_\varphi(·)$ is increasing when $\varphi \in (\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}), \frac{\pi}{4} )$, and decreasing when $\varphi \in (0 ,\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}) )$  
+Therefore, $\varphi_0 =\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}})$ is a minimum point when $\varphi_0 \in (0,\frac{\pi}{4})$
+
+
+
+
+(ii) if $cos(2\varphi) < 0 and \sin(2\varphi)<0$, $2\varphi \in (-\pi,-\frac{\pi}{2})$
+$$ \frac{2b_{12}}{b_{11}-b_{22}}>\tan(2\varphi)$$
+$$2\varphi <\arctan(\frac{2b_{12}}{b_{11}-b_{12}})$$
+$$\varphi <\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}})$$
+So, $C^*_\varphi(·)$ is increasing when $\varphi \in (- \frac {\pi}{2},\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}) )$, and decreasing when $\varphi \in (\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}),-\frac{\pi}{4})$  
+Therefore, $\varphi_1 =\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}})=\varphi_0-\frac{\pi}{2}$ is maximum point where $\varphi_0 \in (0,\frac{\pi}{4})$
+
+(b)(a) if $b_{12} <0, \tan(2\varphi) <0$, in this case either $cos(2\varphi) > 0 and \sin(2\varphi)<0$ or $cos(2\varphi) < 0 and \sin(2\varphi)>0$.  
+
+(i)if 
+$cos(2\varphi) > 0 and \sin(2\varphi)<0$, $2\varphi \in (-\frac{\pi}{2},0)$
+$$ \frac{2b_{12}}{b_{11}-b_{22}}<\tan(2\varphi)$$
+$$2\varphi >\arctan(\frac{2b_{12}}{b_{11}-b_{12}})$$
+
+$$ \varphi >\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}})$$
+So, $C^*_\varphi(·)$ is increasing when $\varphi \in (\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}), 0)$, and decreasing when $\varphi \in (-\frac{\pi}{4}  ,\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}) ) $  
+Therefore, $\varphi_0 =\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}})$ is a minimum point when $\varphi_0 \in (-\frac{\pi}{4},0)$
+
+
+(ii) if $cos(2\varphi) < 0 and \sin(2\varphi)>0$, $2\varphi \in (\frac{\pi}{2},\pi)$
+$$ \frac{2b_{12}}{b_{11}-b_{22}}>\tan(2\varphi) $$
+$$ 2\varphi <\arctan(\frac{2b_{12}}{b_{11}-b_{12}}) $$
+$$ \varphi <\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}) $$
+So, $C^*_\varphi(·)$ is increasing when $\varphi \in (\frac {\pi}{4},\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}) )$, and decreasing when $\varphi \in (\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}),\frac{\pi}{2})$  
+Therefore, $\varphi_1 =\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}})=\varphi_0+\frac{\pi}{2}$ is maximum point where $\varphi_0 \in (-\frac{\pi}{4},0)$
+
+All in all,directional covariance function $C^*_\varphi(·)$ are, respectively, minimum and maximum when $b_{11} >b{22}$
+
+#############################################################
+
+(1) Consider $b_{11}-b_{22} < 0$, from (1) we can see that 
+$$ \frac{2b_{12}}{b_{11}-b_{22}}\cos(2\varphi)>\sin(2\varphi)$$
+$$ \frac{2b_{12}}{b_{11}-b_{22}}>\tan(2\varphi) $$
+
+(a) if $b_{12} >0, \tan(2\varphi) >0$, in this case either $cos(2\varphi) > 0 and \sin(2\varphi)>0$ or $cos(2\varphi) < 0 and \sin(2\varphi)<0$.  
+(i)if 
+$cos(2\varphi) > 0 and \sin(2\varphi)>0$, $2\varphi \in (0,\frac{\pi}{2})$
+$$ \frac{2b_{12}}{b_{11}-b_{22}}>\tan(2\varphi) $$
+$$ 2\varphi <\arctan(\frac{2b_{12}}{b_{11}-b_{12}}) $$
+
+$$ \varphi <\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}) $$
+So, $C^*_\varphi(·)$ is increasing when $\varphi \in (0,\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}))$, and decreasing when $\varphi \in (\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}) ,\frac{\pi}{4})$  
+Therefore, $\varphi_1 =\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}})$ is a maximum point when $\varphi_1 \in (0,\frac{\pi}{4})$
+
+
+
+
+(ii) if $cos(2\varphi) < 0 and \sin(2\varphi)<0$, $2\varphi \in (-\pi,-\frac{\pi}{2})$
+$$ \frac{2b_{12}}{b_{11}-b_{22}}<\tan(2\varphi) $$
+$$ 2\varphi >\arctan(\frac{2b_{12}}{b_{11}-b_{12}}) $$
+$$ \varphi >\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}) $$
+So, $C^*_\varphi(·)$ is increasing when $\varphi \in (\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}),- \frac {\pi}{4} )$, and decreasing when $\varphi \in (-\frac{\pi}{2},\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}))$  
+Therefore, $\varphi_0 =\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}})=\varphi_1-\frac{\pi}{2}$ is minimum point where $\varphi_1 \in (0,\frac{\pi}{4})$
+
+(b)(a) if $b_{12} <0, \tan(2\varphi) <0$, in this case either $cos(2\varphi) > 0 and \sin(2\varphi)<0$ or $cos(2\varphi) < 0 and \sin(2\varphi)>0$.  
+
+(i)if 
+$cos(2\varphi) > 0 and \sin(2\varphi)<0$, $2\varphi \in (-\frac{\pi}{2},0)$
+$$ \frac{2b_{12}}{b_{11}-b_{22}}>\tan(2\varphi) $$
+$$ 2\varphi <\arctan(\frac{2b_{12}}{b_{11}-b_{12}}) $$
+
+$$ \varphi <\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}) $$
+So, $C^*_\varphi(·)$ is increasing when $\varphi \in (-\frac {\pi}{4},\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}))$, and decreasing when 
+$\varphi \in (\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}),0)$  
+Therefore, $\varphi_1 =\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}})$ is a maximum point when $\varphi_1 \in (-\frac{\pi}{4},0)$
+
+
+(ii) if $cos(2\varphi) < 0 and \sin(2\varphi)>0$, $2\varphi \in (\frac{\pi}{2},\pi)$
+$$ \frac{2b_{12}}{b_{11}-{b_12}} < \tan(2\varphi)$$
+
+$$ 2\varphi >\arctan(\frac{2b_{12}}{b_{11}-b_{12}}) $$
+$$ \varphi >\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}) $$
+So, $C^*_\varphi(·)$ is increasing when $\varphi \in (\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}),\frac {\pi}{2}, )$, and decreasing when $\varphi \in (,\frac{\pi}{4},\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}}))$  
+Therefore, $\varphi_0 =\frac{1}{2} \arctan(\frac{2b_{12}}{b_{11}-b_{12}})=\varphi_0+\frac{\pi}{2}$ is miniimum point where $\varphi_1 \in (-\frac{\pi}{4},0)$
+
+All in all,directional covariance function $C^*_\varphi(·)$ are, respectively, minimum and maximum when $b_{11} >b{22}$
+
+
+
+
+
+
+
+
+
+
+
+
