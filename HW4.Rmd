@@ -1,0 +1,189 @@
+---
+title: "Homework4"
+author: "Chen Zhang"
+date: "4/6/2019"
+output: word_document
+---
+
+### 1. Consider the spatial data set from Olea (2006).
+```{r,warning=FALSE}
+library(geoR)
+data = readxl::read_xlsx("data.xlsx")[,-1]
+names(data)=c("x","y","z")
+breaks = seq(0,30)
+summary(data)
+```
+
+#### (a) Based on the data analysis you did in homework 3 (or a new one), entertain three or four tentative models, with different mean and/or semivariogram functions, and choose the ‘best model’ using BIC.
+
+Model1: Matern model with constant mean using maximum likelihood. The mean function is $\mu(s)=\beta(constant)$. 
+Model2: Exponential model with non-constant mean function("1st") using maximum liklihood. The mean function is $\mu(s)=\beta_1+\beta_2x+\beta_3y$
+Model3: Cauchy model with non-constant mean function("2nd") using restricted maximum liklihood. The mean function is $\mu(s)=\beta_0 + \beta_1x + \beta_2y + \beta_3x^2 + \beta_4y^2 + \beta_5xy$.
+
+```{r}
+gr.ml1 = likfit(as.geodata(data),cov.model = "matern",ini=c(1,30),fix.nugget = T,nugget = 0,lik.method = "ML") #model1
+
+gr.ml2 = likfit(as.geodata(data),cov.model = "exp",ini=c(1,30),fix.nugget = T,nugget = 0.001,lik.method = "ML",trend="1st")  #model 2
+
+gr.ml3 = likfit(as.geodata(data),cov.model = "cauchy",ini=c(1,30),fix.nugget = T, nugget = 0.000001,lik.method = "RML",trend="2nd") #model 3
+
+
+```
+
+To select the best model, we could compare the BIC among the three models and choose the lowest value.
+```{r}
+bic1 = data.frame("model"=c("model1","model2","model3"),"BIC"=c(gr.ml1$BIC,gr.ml2$BIC,gr.ml3$BIC))
+bic1
+```
+
+Based on the table, we could see that model has the lowest bic value. The in this question, model 2 is the 'best model'. 
+
+#### (b) Now choose the ‘best model’ using cross validation.
+
+```{r}
+gr.cv1 = xvalid(as.geodata(data),model=gr.ml1)
+gr.cv2 = xvalid(as.geodata(data),model=gr.ml2)
+gr.cv3 = xvalid(as.geodata(data),model=gr.ml3)
+```
+
+Then we compare the MSE of all model. 
+```{r}
+mse1 = data.frame("model"=c("model1","model2","model3"),"MSE"=c(mean(gr.cv1$error^2),mean(gr.cv2$error^2),mean(gr.cv3$error^2)))
+mse1
+```
+
+Based on the cross validation result, we could see that there is no such difference bewteen model 1 and model 2. The chose the smallest mse, so we chose model 2. 
+
+#### (c) Using the model chosen in (b), compute and display the prediction and uncertainty maps over Elk county using kriging. 
+
+```{r}
+gr.gdata = as.geodata(data)  #transform original data into geodata.
+
+gr.grid = expand.grid(seq(-2,51),seq(-3,36))
+#create a mesh over the region [0,12] x [0,12]
+
+gr.ok = krige.conv(gr.gdata,locations = gr.grid,krige = krige.control(type.krige = "ok",cov.model = "exp",nugget = 0.001,cov.pars = c(0.3,1),kappa = 1.5)) #fit the model 
+
+image(gr.ok,xlab="x-coord",ylab="y-coord",values = gr.ok$predict,ylim=c(-3,43),coords.data = gr.gdata$coords,x.leg=c(0,20),y.leg=c(37,40),cex=0.8,main="OK predictions ")
+
+image(gr.ok,xlab="x-coord",ylab="y-coord",ylim=c(-3,43),values = sqrt(gr.ok$krige.var),x.leg=c(0,20),y.leg = c(37,40),coords.data = gr.gdata$coords,cex=0.8,main="OK squared root of MSPE")
+```
+
+#### (d) What conclusions can you draw from these maps about the spatial variation of Bouguer anomaly over the region?
+
+From the first prediction graph, we can see that if the x-coordination is lower and y coordination is high, the bouguer happens less. With the x coordinations increase, y coordination decrease, the nouguer anomaly less sever. From the second graph of squared root of MSPE, we could tell that the uncertainty is high, which means the MSPE is higher. This model maybe not that good. 
+
+### 2.Consider the models entertained in the article De Oliveira and Ecker (2002, Section 5) to fit the Chesapeake bay dataset.
+
+```{r}
+#read data
+chesbay = readxl::read_xlsx("chesbay.xlsx")[,c(2,1,5)]
+names(chesbay)=c("x","y","z")
+
+#create the mean structure. 
+#for the MS1, the mean function is constant. 
+ches.data1 = as.geodata(chesbay)
+
+ches.ms1 = trend.spatial("cte",ches.data1)
+ches.ms2 = trend.spatial(trend = ~coords[,2],ches.data1)#ms2
+ches.ms3 = trend.spatial(trend = ~coords[,2]+I(sin(2.88*coords[,2])),ches.data1)
+
+```
+
+Then we could fit the model. We need to use the "bessel", and "exponential" model, with kappa = 0, or lambda = -0.2. 
+```{r}
+#when lambda=0
+ches.ms1.b0 = likfit(ches.data1,cov.model = "wave",ini=c(30,10),fix.nugget = T,nugget = 0.001,lik.method = "ML",lambda=0,trend=ches.ms1) #ms1 bessal model with lambda=0
+
+ches.ms1.e0 = likfit(ches.data1,cov.model = "exp",ini=c(30,10),fix.nugget = T,nugget = 0.001,lik.method = "ML",lambda =0,trend=ches.ms1) #ms1 exp model with lambda=0
+
+ches.ms2.b0 = likfit(ches.data1,cov.model = "wave",ini=c(30,10),fix.nugget = T,nugget = 0.001,lik.method = "ML",lambda = 0,trend = ches.ms2) #ms2 bessal model with lambda=0
+
+              
+ches.ms2.e0 =likfit(ches.data1,cov.model = "exp",ini=c(30,10),fix.nugget = T,nugget = 0.001,lik.method = "ML",lambda = 0,trend = ches.ms2) #ms2 exp model with lambda=0 
+                    
+ches.ms3.b0 = likfit(ches.data1,cov.model = "wave",ini=c(30,10),fix.nugget = T,nugget = 0.001,lik.method = "ML",lambda = 0,trend=ches.ms3)  #ms3 bessal model with lambda=0 
+
+ches.ms3.e0 = likfit(ches.data1,cov.model = "exp",ini=c(30,10),fix.nugget = T,nugget = 0.001,lik.method = "ML",lambda = 0,trend = ches.ms3)  #ms3 exp model with lambad = 0  
+                                          
+#when lambad = -0.2      
+ches.ms1.b2 = likfit(ches.data1,cov.model = "wave",ini=c(30,10),fix.nugget = T,nugget = 0.001,lik.method = "ML",lambda =-0.2,trend = ches.ms1) #ms1 bessal model with lambda=0
+
+ches.ms1.e2 = likfit(ches.data1,cov.model = "exp",ini=c(30,10),fix.nugget = T,nugget = 0.001,lik.method = "ML",lambda =-0.2,trend = ches.ms1) #ms1 exp model with lambad = -0.2 
+
+ches.ms2.b2 = likfit(ches.data1,cov.model = "wave",ini=c(30,10),fix.nugget = T,nugget = 0.001,lik.method = "ML",lambda = -0.2,trend=ches.ms2)  #ms2 bessal model with lambad = -0.2 
+
+ches.ms2.e2 =likfit(ches.data1,cov.model = "exp",ini=c(30,10),fix.nugget = T,nugget = 0.001,lik.method = "ML",lambda = -0.2,trend=ches.ms2)  #ms2 exp model with lambad = -0.2  
+                    
+ches.ms3.b2 = likfit(ches.data1,cov.model = "wave",ini=c(30,10),fix.nugget = T,nugget = 0.001,lik.method = "ML",lambda = -0.2,trend=ches.ms3)  #ms3 bessal model with lambad = -0.2 
+                     
+ches.ms3.e2 = likfit(ches.data1,cov.model = "exp",ini=c(30,10),fix.nugget = T,nugget = 0.001,lik.method = "ML",lambda = -0.2,trend=ches.ms3)  #ms3 exp model with lambad = -0.2
+```
+
+**Table**
+Based on the table, we choose the 'best model' with smallest BIC. The best model is exp model when $\lambda = -0.2$ mean function is $\mu(x)=\beta_1+\beta_2y+\beta_3\sin(2.88y)$. 
+
+#### (b) Select the ‘best model’ using cross validation. Is the selected model the same as the one selected in the article? Discuss.
+```{r}
+#when lambda=0
+ches.cv1 = xvalid(ches.data1,model=ches.ms1.b0) #ms1 bessel model 
+ches.cv2 = xvalid(ches.data1,model=ches.ms1.e0) #ms1 exp model 
+ches.cv3 = xvalid(ches.data1,model=ches.ms2.b0) #ms2 bessel model
+ches.cv4 = xvalid(ches.data1,model=ches.ms2.e0) #ms2 exp model
+ches.cv5 = xvalid(ches.data1,model=ches.ms3.b0) #ms3 bessel model
+ches.cv6 = xvalid(ches.data1,model=ches.ms3.e0) #ms3 exp model
+
+#when lambad = -0.2
+ches.cv7 = xvalid(ches.data1,model=ches.ms1.b2) #ms1 bessel model 
+ches.cv8 = xvalid(ches.data1,model=ches.ms1.e2) #ms1 exp model
+ches.cv9 = xvalid(ches.data1,model=ches.ms2.b2) #ms2 bessel model
+ches.cv10 = xvalid(ches.data1,model=ches.ms2.e2) #ms2 exp model
+ches.cv11 = xvalid(ches.data1,model=ches.ms3.b2) #ms3 bessel model
+ches.cv12 = xvalid(ches.data1,model=ches.ms3.e2) #ms3 exp model
+
+#choose the best model based on the smallest BIC
+ches.com = data.frame("model"=c("model1","model2","model3","model4","model5","model6","model7","model8","model9","model10","model11","model12"),"MSE"=c(mean(ches.cv1$error^2),mean(ches.cv2$error^2),mean(ches.cv3$error^2),mean(ches.cv4$error^2),mean(ches.cv5$error^2),mean(ches.cv6$error^2),mean(ches.cv7$error^2),mean(ches.cv8$error^2),mean(ches.cv9$error^2),mean(ches.cv10$error^2),mean(ches.cv11$error^2),mean(ches.cv12$error^2)))
+ches.com
+```
+
+Based on the table, we can see that the lowest MSE is model 12. which is the ms3 exp model. In the article, the best model is ms2 bessel model with $\lambda=-0.2$. I think in the article, the sin function has slight difference, because the author used degree. 
+
+### 3. Read Example 5.5, Schabenberger & Gotway, page 229.
+```{r}
+data.3 = readxl::read_xlsx("q3.xlsx")
+data3.gdata=as.geodata(data.3)
+```
+
+#### (a) Replicate the findings in this example that are reported in Table 5.1, page 231, and discuss whether your findings and conclusions agree with those reported in the book.
+```{r}
+data3.grid = expand.grid(12,30)
+modelA = krige.conv(data3.gdata,locations = data3.grid,krige = krige.control(type="ok",cov.model = "exp",nugget = 0,cov.pars = c(10,20)),output = output.control(signal = T)) #obtain sigma^2 and prediction.
+modelA.lambda = krweights(coords = data3.gdata$coords,locations = data3.grid,krige = krige.control(type="ok",cov.model = "exp",nugget = 0,cov.pars = c(10,20))) #obtain kriging weights which are lambdas. 
+
+modelB = krige.conv(data3.gdata,locations = data3.grid,krige = krige.control(type="ok",cov.model = "exp",nugget = 0,cov.pars = c(10,10)),output = output.control(signal = T))
+modelB.lambda = krweights(coords = data3.gdata$coords,locations = data3.grid,krige = krige.control(type="ok",cov.model = "exp",nugget = 0,cov.pars = c(10,10)))
+
+
+modelC = krige.conv(data3.gdata,locations = data3.grid,krige = krige.control(type="ok",cov.model = "exp",nugget = 5,cov.pars = c(20,10)),output = output.control(signal = T))
+modelC.lambda=krweights(coords = data3.gdata$coords,locations = data3.grid,krige = krige.control(type="ok",cov.model = "exp",nugget = 5,cov.pars = c(20,10)))
+
+modelD = krige.conv(data3.gdata,locations = data3.grid,krige = krige.control(type="ok",cov.model = "pure.nugget",nugget = 10,cov.pars = c(0,0)),output = output.control(signal = T))
+modelD.lambda = krweights(coords = data3.gdata$coords,locations = data3.grid,krige = krige.control(type="ok",cov.model = "pure.nugget",nugget = 10,cov.pars = c(0,0)))
+
+modelE =krige.conv(data3.gdata,locations = data3.grid,krige = krige.control(type="ok",cov.model = "exp",nugget = 0,cov.pars = c(20,20)),output = output.control(signal = T))
+modelE.lambda = krweights(coords = data3.gdata$coords,locations = data3.grid,krige = krige.control(type="ok",cov.model = "exp",nugget = 0,cov.pars = c(20,20)))
+
+modelF =krige.conv(data3.gdata,locations = data3.grid,krige = krige.control(type="ok",cov.model = "gaussian",nugget = 0,cov.pars = c(20,10)),output = output.control(signal = T))
+modelF.lambda = krweights(coords = data3.gdata$coords,locations = data3.grid,krige = krige.control(type="ok",cov.model = "gaussian",nugget = 0,cov.pars = c(20,10)))
+
+```
+
+Then we could make a data frame
+
+**Table** 
+#### (b) The aforementioned example did not discuss the effect of a nugget on the predictions,MSPEs and kriging weights. Explain your findings in this regard.
+
+Frist, we could calculate the MSPEs of estimator $z(s_0)$. See the previous table. 
+
+
+
